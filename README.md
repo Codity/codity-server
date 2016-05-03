@@ -1,0 +1,1 @@
+To build static go to frontend and run *webpack*
