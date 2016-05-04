@@ -90,13 +90,20 @@ class RuleViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request):
+        print(request.data)
         pk = request.data.get('id')
         rule = Rule.objects.get(pk=pk)
+        field = request.data.get('field')
+        value = request.data.get('value')
 
-        rule.metric = request.data.get('metric')
-        rule.sign = request.data.get('sign')
-        rule.value = request.data.get('value')
-        rule.action = request.data.get('action')
+        print(field)
+        setattr(rule, field, value)
+
+        print(rule)
+        #rule.metric = request.data.get('metric')
+        #rule.sign = request.data.get('sign')
+        #rule.value = request.data.get('value')
+        #rule.action = request.data.get('action')
         rule.save()
 
         return Response({

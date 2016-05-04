@@ -15,43 +15,141 @@ var $ = require('jquery');
 //   });
 
 
+var SelectForm = React.createClass({
+  getInitialState: function() {
+    return{
+      value: this.props.initialValue,
+      valid: !!this.props.initialValue
+    };
+  },
+  change: function(event) {
+    var newValue = event.target.value,
+        validity = !!newValue;
+    console.log('valid', validity)
+
+    if(validity) {
+      this.props.modify(this.props.fieldType, newValue);
+    }
+
+    this.setState({
+      value: newValue,
+      valid: validity
+    });
+
+  },
+  render: function() {
+    return(
+      <select
+        className={this.state.valid ? 'select' : 'select select__invalid'}
+        onChange={this.change}
+        value={this.state.value}>
+
+        {this.props.options.map(function(item, rank) {
+          return <option key={rank} value={item}>{item}</option>;
+        })}
+
+      </select>
+    );
+  }
+});
+
+
+var InputField = React.createClass({
+  validate: function(arg) {
+    //console.log(arg, String(arg), String(arg).match(/^[\d]+$/g));
+    return !!(String(arg).match(/^[\d]+$/g))
+  },
+  getInitialState: function() {
+    return{
+      value: this.props.initialValue,
+      valid: this.validate(this.props.initialValue)
+    };
+  },
+  change: function(event) {
+    var newValue = event.target.value,
+        validity = this.validate(newValue);
+
+    this.setState({
+      value: newValue,
+      valid: validity
+    });
+  },
+  blur: function(event) {
+    if(this.state.valid)
+      this.props.modify(this.props.fieldType, event.target.value);
+  },
+  render: function() {
+    return(
+      <input
+        className={this.state.valid ? 'input' : 'input input__invalid'}
+        onChange={this.change}
+        onBlur={this.blur}
+        value={this.state.value}/>
+    );
+  }
+});
 
 
 var RulesItem = React.createClass({
   getInitialState: function() {
-    if(this.props.item) { // data-based form
-      var state = {
-        metric: this.props.item.metric,
-        sign: this.props.item.sign,
-        value: this.props.item.value,
-        action: this.props.item.action,
-        id: this.props.item.id
-      };
-    } else { // new form
-      var state = {
-        metric: '',
-        sign: '',
-        value: '',
-        action: ''
-      };
-    };
-
-    return state;
+    return {};
   },
   componentWillMount: function() {
-    
   },
   componentDidMount: function() {
   },
+ /* validateForm: function(formType, value) {
+    if(formType=='value') {
+      console.log("val", !!value.match(/^[\d]+$/g));
+      return !!value.match(/^[\d]+$/g);
+    } else { // formtype == select
+      console.log("val", !!value);
+      return !!value;
+    }
+  },*/
   change: function(goal, event) {
-    var newState = {};
-    newState[goal] = event.target.value;
-    this.setState(newState);
+    //console.log(goal)
+    //var newValue = event.target.value;
+    //console.log('change',goal, newValue, i);
+
+    //this.validateForm(goal, newValue);
+    //if(this.validateForm(goal, newValue)) {
+
+    //  var newState = {};
+    //  newState[goal] = newValue;
+    //  this.setState(newState);
+
+     // this.setState({'invalid': false});
+   // } else {
+    //  this.setState({'invalid': true});
+    //}
+
+  },
+  modify: function(field, value) {
+    // modify method is available only for existing rules
+    if(!this.props.item) return;
+
+    var data = {
+      id: this.props.item.id,
+      field: field,
+      value: value
+    };
+
+    $.ajax({
+        type: 'PUT',
+        url: '/api/rules/',
+        data: data
+    }).done(function(data) {
+      console.log('PUT success', data);
+    }).fail(function(data) {
+      console.log('PUT fail', data);
+    });
+
   },
   send: function() {
-    console.log('send', this.state);
+    //console.log('send', this.state);
 
-    if(this.props.item) { // data-based form
+    /*if(this.props.item) { // data-based form
       $.ajax({
         type: 'PUT',
         url: '/api/rules/',
@@ -61,7 +159,7 @@ var RulesItem = React.createClass({
       }).fail(function(data) {
         console.log('Put fail', data);
       });
-    } else { // new form
+    } else { // new form*/
       $.ajax({
         type: 'POST',
         url: '/api/rules/',
@@ -71,9 +169,9 @@ var RulesItem = React.createClass({
       }).fail(function(data) {
         console.log('Post fail:', data);
       });
-    }
+    //}
 
-
+    // get data to see it in console
     $.ajax({
       type: 'GET',
       url: '/api/rules/'
@@ -82,38 +180,46 @@ var RulesItem = React.createClass({
     });
 
   },
-
   render: function() {
     return (
       <div>
         <div className='rules__item'>
+          {this.state.invalid ? <p>!!!!</p> : null}
+          if
 
-        if
+          <SelectForm
+            fieldType='metric'
+            options={['', 'CPU', 'RAM']}
+            initialValue={this.props.item ? this.props.item.metric : ''}
+            modify={this.modify}/>
 
-        <select onChange={this.change.bind(this, 'metric')} value={this.state.metric}>
-          {['', 'CPU', 'RAM'].map(function(item, rank) {
-            return <option key={rank} value={item}>{item}</option>;
-          })}
-        </select>
+          <SelectForm
+            fieldType='sign'
+            options={['', 'more', 'less']}
+            initialValue={this.props.item ? this.props.item.sign : ''}
+            modify={this.modify}/>
 
-        <select onChange={this.change.bind(this, 'sign')} value={this.state.sign}>
-          {['', 'more', 'less'].map(function(item, rank) {
-            return <option key={rank} value={item}>{item}</option>;
-          })}
-        </select>
+          than
 
-        than
+          <InputField
+            type='text'
+            fieldType='value'
+            modify={this.modify}
+            initialValue={this.props.item ? this.props.item.value : ''}/>
 
-        <input type='text' onChange={this.change.bind(this, 'value')} value={this.state.value}/>
+          then
 
-        then
+          <SelectForm
+            fieldType='action'
+            options={['', 'buy', 'sell']}
+            initialValue={this.props.item ? this.props.item.action : ''}
+            modify={this.modify}/>
 
-        <select onChange={this.change.bind(this, 'action')} value={this.state.action}>
-          {['', 'buy', 'sell'].map(function(item, rank) {
-            return <option key={rank} value={item}>{item}</option>;
-          })}
-        </select>
-        <button onClick={this.send}>send</button>
+          {/* show 'send' button for new rules only */}
+
+          {this.props.item ? null :
+            <button onClick={this.send}>send</button>
+          }
         </div>
       </div>
     );
