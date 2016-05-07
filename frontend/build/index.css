@@ -1,6 +1,18 @@
-.select__invalid {
+.select_invalid {
   background: #f00;
 }
-.input__invalid {
+.select_blank {
+  background: #00f;
+}
+.select_invalid.select_blank {
+  background: #008000;
+}
+.input_invalid {
   background: #f00;
+}
+.input_blank {
+  background: #00f;
+}
+.input_invalid.input_blank {
+  background: #008000;
 }
