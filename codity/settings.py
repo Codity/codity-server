@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ),
 
-    'PAGE_SIZE': 10,
+    'PAGE_SIZE': 100,
 }
 
 #REST_FRAMEWORK = {

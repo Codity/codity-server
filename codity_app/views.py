@@ -58,7 +58,6 @@ class RuleViewSet(viewsets.ModelViewSet):
 
 
     def create(self, request):
-        print(request.data)
         serializer = RuleSerializer(data=request.data)
 
         metric = request.data.get('metric')
@@ -72,15 +71,13 @@ class RuleViewSet(viewsets.ModelViewSet):
             instance = None
 
 
-        print(serializer.is_valid())
-
         if serializer.is_valid():
             if instance is None:
-                serializer.save()
+                new_instance = serializer.save()
 
-                return Response(
-                    serializer.validated_data, status=status.HTTP_201_CREATED
-                )
+                return Response({
+                    'id': new_instance.id
+                }, status=status.HTTP_201_CREATED)
             else:
                 return Response({
                     'message': 'Similar record in database already exists.',
@@ -89,21 +86,23 @@ class RuleViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request):
+        pk = request.data.get('id')
+        rule = Rule.objects.get(pk=pk)
+        rule.delete()
+
+        return Response({
+            'pk': pk,
+            'message': 'Delete'
+        }, status=status.HTTP_200_OK)
+
     def update(self, request):
-        print(request.data)
         pk = request.data.get('id')
         rule = Rule.objects.get(pk=pk)
         field = request.data.get('field')
         value = request.data.get('value')
-
-        print(field)
         setattr(rule, field, value)
 
-        print(rule)
-        #rule.metric = request.data.get('metric')
-        #rule.sign = request.data.get('sign')
-        #rule.value = request.data.get('value')
-        #rule.action = request.data.get('action')
         rule.save()
 
         return Response({

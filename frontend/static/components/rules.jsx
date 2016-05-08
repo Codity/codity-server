@@ -1,145 +1,119 @@
 import React from 'react';
-var http = require('http');
 var $ = require('jquery');
-var classNames = require('classnames');
-
-
-var SelectForm = React.createClass({
-  getInitialState: function() {
-    var initialValue = this.props.item ?
-      this.props.item[this.props.fieldType] : '';
-
-    return {
-      value: initialValue,
-      fieldIsValid: !!initialValue,
-      blank: this.props.blank // new item
-    };
-  },
-  change: function(event) {
-    var newValue = event.target.value,
-        validity = !!newValue;
-
-    if(validity || this.props.blank)
-      this.props.send(this.props.fieldType, newValue);
-
-    this.setState({
-      value: newValue,
-      fieldIsValid: validity,
-      blank: false // once we touch it, we will validate it
-    });
-
-  },
-  render: function() {
-    return(
-      <select
-        className={classNames({
-          'select': true,
-          'select_invalid': !this.state.fieldIsValid,
-          'select_blank': this.state.blank
-        })}
-        onChange={this.change}
-        value={this.state.value}>
-
-        {this.props.options.map(function(item, rank) {
-          return <option key={rank} value={item}>{item}</option>;
-        })}
-
-      </select>
-    );
-  }
-});
-
-
-var InputField = React.createClass({
-  validate: function(arg) {
-    return !!(String(arg).match(/^[\d]+$/g))
-  },
-  getInitialState: function() {
-    var initialValue = this.props.item ?
-      this.props.item[this.props.fieldType] : '';
-
-    return {
-      value: initialValue,
-      fieldIsValid: this.validate(initialValue),
-      blank: this.props.blank
-    };
-  },
-  change: function(event) {
-    var newValue = event.target.value,
-        validity = this.validate(newValue);
-
-    if(validity)
-      this.props.send(this.props.fieldType, event.target.value);
-
-    if(!validity && this.props.blank) // this.props.blank means that rule is new
-      this.props.send(this.props.fieldType, '');
-
-    this.setState({
-      value: newValue,
-      fieldIsValid: validity,
-      blank: false
-    });
-  },
-  blur: function(event) {
-    if(this.state.fieldIsValid)
-      this.props.send(this.props.fieldType, event.target.value);
-  },
-  render: function() {
-    return(
-      <input
-        className={classNames({
-          'input': true,
-          'input_invalid': !this.state.fieldIsValid,
-          'input_blank': this.state.blank
-        })}
-        onChange={this.change}
-        onBlur={this.blur}
-        value={this.state.value}/>
-    );
-  }
-});
+var SelectForm = require('./rule_forms.jsx').SelectForm;
+var InputForm = require('./rule_forms.jsx').InputForm;
 
 
 var RulesItem = React.createClass({
+  render: function() {
+    return (
+      <div className='rules__item'>
+        if
+        <SelectForm
+          {...this.props}
+          fieldType='metric'
+          options={['', 'CPU', 'RAM']}/>
+        <SelectForm
+          {...this.props}
+          fieldType='sign'
+          options={['', 'more', 'less']}/>
+        than
+        <InputForm
+          {...this.props}
+          fieldType='value'
+          type='text'/>
+        then
+        <SelectForm
+          {...this.props}
+          fieldType='action'
+          options={['', 'buy', 'sell']}/>
+      </div>
+    );
+  }
+});
+
+
+var BlankRulesItem = React.createClass({
   getInitialState: function() {
     return {
-      readyToSend: false
+      readyToSend: false,
+      blankItemData: {},
+      blank: true
     };
   },
-  blankItemData: {},
   send: function(field, value) {
-    if(this.props.blank) {
-    console.log("field", field)
-      this.storeBlankItemData(field, value);
-    } else {
-      this.modifyItemData(field, value);
-    }
+    this.state.blankItemData[field] = value;
+    this.updateReady();
   },
-  checkBlankItemValidity: function() {
-    var obj = this.blankItemData,
+  clear: function() {
+    this.props.toggleBlank();
+   /* var obj = this.state.blankItemData;
+
+    console.log('before',this.state.blankItemData);
+
+    Object.keys(this.state.blankItemData).forEach(function(key, index) {
+      obj[key] = '';
+    });
+
+    this.setState({
+      readyToSend : false
+    });*/
+  },
+  updateReady: function() {
+    var obj = this.state.blankItemData,
         readyToSend = true;
 
     Object.keys(obj).forEach(function(key, index) {
-      console.log(obj[key]);
       if(obj[key] == '')
         readyToSend = false;
     });
 
-    if(Object.keys(obj).length!=4)
+    if(Object.keys(obj).length!=4) // number of forms
       readyToSend = false;
 
     this.setState({
       readyToSend : readyToSend
     });
   },
-  storeBlankItemData: function(field, value) {
-    this.blankItemData[field] = value;
+  save: function(event) {
+    console.log("from send", this.state.blankItemData);
 
-    console.log("blankitemdata",this.blankItemData);
+    $.ajax({
+      type: 'POST',
+      url: '/api/rules/',
+      data: this.state.blankItemData
+    }).done(function(data) {
 
-    this.checkBlankItemValidity()
-    console.log("ready", this.state.readyToSend);
-    
+      Object.assign(this.state.blankItemData, {'id': data.id});
+      this.props.append(this.state.blankItemData);
+
+      this.clear();
+
+    }.bind(this)).fail(function(data) {
+      console.log('Post fail:', data);
+    });
+
+  },
+  render: function() {
+    return(
+      <div>
+        <RulesItem send={this.send} blank={this.state.blank}/>
+        {this.state.readyToSend ? 
+          <button onClick={this.save}>save</button> : null }
+      </div>
+    );
+  }
+});
+
+
+var SetRulesItem = React.createClass({
+  getInitialState: function() {
+    return {
+      showCross: false
+    };
+  },
+  send: function(field, value) {
+    this.modifyItemData(field, value);
   },
   modifyItemData: function(field, value) {
     var data = {
@@ -147,6 +121,7 @@ var RulesItem = React.createClass({
       field: field,
       value: value
     };
+    console.log("data", data.id);
 
     $.ajax({
         type: 'PUT',
@@ -159,61 +134,36 @@ var RulesItem = React.createClass({
     });
 
   },
-  sendNew: function() {
-    console.log("from send", this.blankItemData);
-    $.ajax({
-      type: 'POST',
-      url: '/api/rules/',
-      data: this.blankItemData
-    }).done(function(data) {
-      console.log('Post success:', data);
-    }).fail(function(data) {
-      console.log('Post fail:', data);
+  toggleCross: function(showCross) {
+    this.setState({
+      showCross: showCross
     });
   },
+  deleteItem: function(event) {
+    var data = {
+      id: this.props.item.id
+    };
+
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/rules/',
+        data: data
+    }).done(function(data) {
+      console.log('DELETE success', data);
+    }).fail(function(data) {
+      console.log('DELETE fail', data);
+    });
+
+    this.props.remove(event.target.parentElement);
+  },
   render: function() {
-    return (
-      <div>
-        <div className='rules__item'>
-          if
-
-          <SelectForm
-            {...this.props}
-            fieldType='metric'
-            options={['', 'CPU', 'RAM']}
-            send={this.send}
-            storeBlankItemData={this.storeBlankItemData}/>
-
-          <SelectForm
-            {...this.props}
-            fieldType='sign'
-            options={['', 'more', 'less']}
-            send={this.send}
-            storeBlankItemData={this.storeBlankItemData}/>
-
-          than
-
-          <InputField
-            {...this.props}
-            fieldType='value'
-            send={this.send}
-            storeBlankItemData={this.storeBlankItemData}
-            type='text'/>
-
-          then
-
-          <SelectForm
-            {...this.props}
-            fieldType='action'
-            options={['', 'buy', 'sell']}
-            send={this.send}
-            storeBlankItemData={this.storeBlankItemData}/>
-
-          {/* show 'send' button for new rules only */}
-          {(!this.props.item && this.state.readyToSend) ? 
-            <button onClick={this.sendNew}>send</button> : null
-          }
-        </div>
+    return(
+      <div className='rules__item__wrapper' onMouseEnter={this.toggleCross.bind(this, true)} onMouseLeave={this.toggleCross.bind(this, false)}>
+        <RulesItem send={this.send} {...this.props} />
+        {this.state.showCross?
+          <div onClick={this.deleteItem} className='rules__item__cross'>x</div>
+        : null}
+        <div className='clear'></div>
       </div>
     );
   }
@@ -223,6 +173,7 @@ var RulesItem = React.createClass({
 var RulesList = React.createClass({
   getInitialState: function() {
     return {
+      showBlank: false,
       rulesList: []
     };
   },
@@ -237,15 +188,32 @@ var RulesList = React.createClass({
       });
     }.bind(this));
   },
+  removeItem: function(item) {
+    item.parentElement.removeChild(item);
+  },
+  appendItem: function(item) {
+    console.log('item',item);
+    this.state.rulesList.push(item);
+    this.forceUpdate();
+  },
+  toggleBlank: function() {
+    this.setState({
+      showBlank: !this.state.showBlank
+    });
+  },
   render: function() {
+    console.log("list render!", this.state.showBlank);
+    var removeItem = this.removeItem, appendItem = this.appendItem;
     return (
       <div>
         <div>rules</div>
         <div>
           {this.state.rulesList.map(function(item, rank) {
-            return <RulesItem key={rank} item={item}/>;
+            return <SetRulesItem remove={removeItem} key={rank} item={item}/>;
           })}
         </div>
+        
+        {this.state.showBlank ? <BlankRulesItem toggleBlank={this.toggleBlank} append={appendItem}/> : <a onClick={this.toggleBlank}>new rule?</a>}
       </div>
     );
   }
@@ -257,11 +225,10 @@ var Rules = React.createClass({
     return (
       <div>
         <RulesList/>
-        new rule:
-        <RulesItem blank/>
       </div>
     );
   }
 });
+
 
 module.exports = Rules;

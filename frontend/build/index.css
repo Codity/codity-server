@@ -1,3 +1,6 @@
+.clear {
+  clear: both;
+}
 .select_invalid {
   background: #f00;
 }
@@ -15,4 +18,11 @@
 }
 .input_invalid.input_blank {
   background: #008000;
+}
+.rules__item {
+  float: left;
+}
+.rules__item__cross {
+  float: left;
+  cursor: pointer;
 }
