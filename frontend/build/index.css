@@ -1,5 +1,109 @@
+@font-face {
+  font-family: Lato;
+  font-style: normal;
+  src: url(c9064bf904221c68cbdaf2b237b18cb2.ttf);
+}
+@font-face {
+  font-family: Lato-Regular;
+  font-style: normal;
+  src: url(1835f7d3644d5bb0f03ed5fdb40898d4.ttf);
+}
+body {
+  background: #eee;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato';
+}
+div,
+span {
+  font-family: 'Lato';
+}
+button {
+  background: none;
+  padding: 0;
+  border: none;
+}
+input {
+  font-family: 'Lato';
+  border: none;
+}
+input:focus {
+  outline: none;
+}
+a {
+  text-decoration: none;
+}
 .clear {
   clear: both;
+}
+.drawer__link {
+  font-family: 'Lato-Regular';
+}
+.rules__list {
+  width: 670px;
+  margin: 0 auto;
+  padding: 0 50px;
+}
+.rules__header {
+  margin: 16px 20px;
+  font-family: 'Lato-Regular';
+  color: #555;
+}
+.rules__item {
+  padding: 22px 20px;
+  font-size: 18px;
+}
+.rules__item__wrapper {
+  position: relative;
+  height: 78px;
+  border-bottom: 1px solid #e0e0e0;
+}
+.rules__item__wrapper_blank {
+  color: #fff;
+  background: #b2dfdb;
+  border-bottom: none;
+}
+.rules__item__wrapper_blank__block {
+  font-family: Lato-Regular;
+}
+.rules__item__wrapper_blank:hover {
+  background: #b2dfdb;
+}
+.rules__item__block {
+  position: relative;
+}
+.rules__item__block_select {
+  padding: 2px 6px;
+  background: #eee;
+}
+.rules__cross {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 30px;
+  color: #666;
+}
+.rules__plus {
+  position: absolute;
+  right: 16px;
+  bottom: 40px;
+}
+.rules__save {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 37px;
+  padding: 21px;
+  border-bottom-right-radius: 2px;
+  color: #fff;
+  background: #4db6ac;
+}
+.select {
+  font-family: 'Lato';
+  cursor: pointer;
 }
 .select_invalid {
   background: #f00;
@@ -10,19 +114,29 @@
 .select_invalid.select_blank {
   background: #008000;
 }
+.select__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  list-style-type: none;
+  margin: 0;
+  padding: 2px 6px;
+  cursor: pointer;
+  background: #808080;
+}
+.input {
+  font-family: 'Lato';
+  width: 200px;
+  background: #eee;
+  padding: 5px;
+  font-size: 20px;
+}
 .input_invalid {
-  background: #f00;
+  border-bottom: 2px solid #f00;
 }
 .input_blank {
   background: #00f;
 }
 .input_invalid.input_blank {
   background: #008000;
-}
-.rules__item {
-  float: left;
-}
-.rules__item__cross {
-  float: left;
-  cursor: pointer;
 }

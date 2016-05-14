@@ -3,26 +3,41 @@ var $ = require('jquery');
 var SelectForm = require('./rule_forms.jsx').SelectForm;
 var InputForm = require('./rule_forms.jsx').InputForm;
 
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import TextField from 'material-ui/TextField';
+import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
+  from 'material-ui/Table';
+
+import Divider from 'material-ui/Divider';
+
+import Paper from 'material-ui/Paper';
 
 var RulesItem = React.createClass({
   render: function() {
     return (
       <div className='rules__item'>
-        if
+        <span className='rules__item__block'>if</span>
+        &nbsp;
         <SelectForm
           {...this.props}
           fieldType='metric'
           options={['', 'CPU', 'RAM']}/>
+        &nbsp;
         <SelectForm
           {...this.props}
           fieldType='sign'
           options={['', 'more', 'less']}/>
-        than
+        &nbsp;
+        <span className='rules__item__block'>than</span>
+        &nbsp;
         <InputForm
           {...this.props}
           fieldType='value'
           type='text'/>
-        then
+        &nbsp;
+        <span className='rules__item__block'>then</span>
+        &nbsp;
         <SelectForm
           {...this.props}
           fieldType='action'
@@ -42,22 +57,9 @@ var BlankRulesItem = React.createClass({
     };
   },
   send: function(field, value) {
+    console.log("send");
     this.state.blankItemData[field] = value;
     this.updateReady();
-  },
-  clear: function() {
-    this.props.toggleBlank();
-   /* var obj = this.state.blankItemData;
-
-    console.log('before',this.state.blankItemData);
-
-    Object.keys(this.state.blankItemData).forEach(function(key, index) {
-      obj[key] = '';
-    });
-
-    this.setState({
-      readyToSend : false
-    });*/
   },
   updateReady: function() {
     var obj = this.state.blankItemData,
@@ -87,7 +89,7 @@ var BlankRulesItem = React.createClass({
       Object.assign(this.state.blankItemData, {'id': data.id});
       this.props.append(this.state.blankItemData);
 
-      this.clear();
+      this.props.toggleBlank();
 
     }.bind(this)).fail(function(data) {
       console.log('Post fail:', data);
@@ -96,10 +98,11 @@ var BlankRulesItem = React.createClass({
   },
   render: function() {
     return(
-      <div>
+      <div className='rules__item__wrapper rules__item__wrapper_blank'>
         <RulesItem send={this.send} blank={this.state.blank}/>
-        {this.state.readyToSend ? 
-          <button onClick={this.save}>save</button> : null }
+        {this.state.readyToSend ?
+          <i onClick={this.save} className='material-icons rules__save'>forward</i>
+        : null}
       </div>
     );
   }
@@ -160,10 +163,9 @@ var SetRulesItem = React.createClass({
     return(
       <div className='rules__item__wrapper' onMouseEnter={this.toggleCross.bind(this, true)} onMouseLeave={this.toggleCross.bind(this, false)}>
         <RulesItem send={this.send} {...this.props} />
-        {this.state.showCross?
-          <div onClick={this.deleteItem} className='rules__item__cross'>x</div>
-        : null}
-        <div className='clear'></div>
+        {this.state.showCross ?
+          <i onClick={this.deleteItem} className='material-icons rules__cross'>clear</i>
+        : null }
       </div>
     );
   }
@@ -205,15 +207,31 @@ var RulesList = React.createClass({
     console.log("list render!", this.state.showBlank);
     var removeItem = this.removeItem, appendItem = this.appendItem;
     return (
-      <div>
-        <div>rules</div>
-        <div>
-          {this.state.rulesList.map(function(item, rank) {
-            return <SetRulesItem remove={removeItem} key={rank} item={item}/>;
-          })}
+      <div className='rules'>
+        <div className='rules__list'>
+          <div className='rules__header'>Rule list</div>
+          <Paper zDepth={1}>
+              {this.state.rulesList.map(function(item, rank) {
+                return (
+                  <div key={rank}>
+                    <SetRulesItem remove={removeItem} item={item}/>
+          
+                  </div>);
+              })}
+              {this.state.showBlank ?
+                <div>
+                  <BlankRulesItem toggleBlank={this.toggleBlank} append={appendItem}/>
+                  <Divider/>
+                </div>
+              : null}
+          </Paper>
+
+          {this.state.showBlank ? null :
+            <FloatingActionButton className='rules__plus' onClick={this.toggleBlank}>
+              <ContentAdd />
+            </FloatingActionButton>
+          }
         </div>
-        
-        {this.state.showBlank ? <BlankRulesItem toggleBlank={this.toggleBlank} append={appendItem}/> : <a onClick={this.toggleBlank}>new rule?</a>}
       </div>
     );
   }
@@ -223,8 +241,11 @@ var RulesList = React.createClass({
 var Rules = React.createClass({
   render: function() {
     return (
-      <div>
-        <RulesList/>
+      <div className="">
+        <main className="">
+            <RulesList/>
+        </main>
+
       </div>
     );
   }

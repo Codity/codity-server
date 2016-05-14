@@ -1,16 +1,62 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 
 import Rules from './rules.jsx'
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import Avatar from 'material-ui/Avatar';
+import Divider from 'material-ui/Divider';
+
+// Needed for onTouchTap
+// http://stackoverflow.com/a/34015469/988941
+injectTapEventPlugin();
+
 var App = React.createClass({
+  getInitialState: function() {
+    return {
+      'drawerIsOpen': false
+    };
+  },
+  toggleDrawer: function() {
+    this.setState({
+      'drawerIsOpen': !this.state.drawerIsOpen
+    });
+  },
   render: function() {
+    console.log(this.props);
     return (
-      <div>
-      <h1>apppp</h1>
-      {this.props.children}
-      </div>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <div>
+          <AppBar
+            title="Rules"
+            onLeftIconButtonTouchTap={this.toggleDrawer}
+          />
+
+          <Drawer open={this.state.drawerIsOpen}>
+
+            <Divider/>
+            <Link to={'/about'} >
+              <MenuItem onClick={this.toggleDrawer}>
+                <span className='drawer__link'>about</span>
+              </MenuItem>
+            </Link>
+            <Link to={'/settings'}>
+              <MenuItem onClick={this.toggleDrawer}>
+                <span className='drawer__link'>settings</span>
+              </MenuItem>
+            </Link>
+          </Drawer>
+
+          {this.props.children}
+        </div>
+      </MuiThemeProvider>
     );
   }
 });
@@ -73,11 +119,25 @@ var NoMatch = React.createClass({
   }
 });*/
 
+var Index = React.createClass({
+  render: function() {
+    console.log("render");
+    return(
+      <div>
+      <h1>Index</h1>
+      </div>
+    );
+  }
+});
 
 var RulesWrapper = React.createClass({
   render: function() {
+    console.log("render");
     return(
-      <Rules/>
+      <div>
+        <Rules/>
+
+      </div>
     );
   }
 });
@@ -85,7 +145,9 @@ var RulesWrapper = React.createClass({
 render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
+      <IndexRoute component={Index}/>
       <Route path="settings" component={RulesWrapper}/>
+      <Route path="about" component={About}/>
 
       <Route path="*" component={NoMatch}/>
     </Route>
