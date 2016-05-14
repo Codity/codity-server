@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(413);
+	module.exports = __webpack_require__(428);
 
 
 /***/ },
@@ -74,11 +74,11 @@
 
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 
-	var _AppBar = __webpack_require__(421);
+	var _AppBar = __webpack_require__(413);
 
 	var _AppBar2 = _interopRequireDefault(_AppBar);
 
-	var _Drawer = __webpack_require__(424);
+	var _Drawer = __webpack_require__(416);
 
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 
@@ -86,11 +86,11 @@
 
 	var _MenuItem2 = _interopRequireDefault(_MenuItem);
 
-	var _reactTapEventPlugin = __webpack_require__(428);
+	var _reactTapEventPlugin = __webpack_require__(420);
 
 	var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
 
-	var _Avatar = __webpack_require__(434);
+	var _Avatar = __webpack_require__(426);
 
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -57404,19 +57404,6 @@
 
 /***/ },
 /* 413 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57426,7 +57413,7 @@
 	});
 	exports.default = undefined;
 
-	var _AppBar = __webpack_require__(422);
+	var _AppBar = __webpack_require__(414);
 
 	var _AppBar2 = _interopRequireDefault(_AppBar);
 
@@ -57435,7 +57422,7 @@
 	exports.default = _AppBar2.default;
 
 /***/ },
-/* 422 */
+/* 414 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -57460,7 +57447,7 @@
 
 	var _IconButton2 = _interopRequireDefault(_IconButton);
 
-	var _menu = __webpack_require__(423);
+	var _menu = __webpack_require__(415);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
@@ -57785,7 +57772,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 423 */
+/* 415 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57821,7 +57808,7 @@
 	exports.default = NavigationMenu;
 
 /***/ },
-/* 424 */
+/* 416 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57831,7 +57818,7 @@
 	});
 	exports.default = undefined;
 
-	var _Drawer = __webpack_require__(425);
+	var _Drawer = __webpack_require__(417);
 
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 
@@ -57840,7 +57827,7 @@
 	exports.default = _Drawer2.default;
 
 /***/ },
-/* 425 */
+/* 417 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57879,7 +57866,7 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _Overlay = __webpack_require__(426);
+	var _Overlay = __webpack_require__(418);
 
 	var _Overlay2 = _interopRequireDefault(_Overlay);
 
@@ -58296,7 +58283,7 @@
 	exports.default = Drawer;
 
 /***/ },
-/* 426 */
+/* 418 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58321,7 +58308,7 @@
 
 	var _transitions2 = _interopRequireDefault(_transitions);
 
-	var _AutoLockScrolling = __webpack_require__(427);
+	var _AutoLockScrolling = __webpack_require__(419);
 
 	var _AutoLockScrolling2 = _interopRequireDefault(_AutoLockScrolling);
 
@@ -58428,7 +58415,7 @@
 	exports.default = Overlay;
 
 /***/ },
-/* 427 */
+/* 419 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58535,11 +58522,11 @@
 	exports.default = AutoLockScrolling;
 
 /***/ },
-/* 428 */
+/* 420 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var invariant = __webpack_require__(429);
-	var defaultClickRejectionStrategy = __webpack_require__(430);
+	/* WEBPACK VAR INJECTION */(function(process) {var invariant = __webpack_require__(421);
+	var defaultClickRejectionStrategy = __webpack_require__(422);
 
 	var alreadyInjected = false;
 
@@ -58561,14 +58548,14 @@
 	  alreadyInjected = true;
 
 	  __webpack_require__(43).injection.injectEventPluginsByName({
-	    'TapEventPlugin':       __webpack_require__(431)(shouldRejectClick)
+	    'TapEventPlugin':       __webpack_require__(423)(shouldRejectClick)
 	  });
 	};
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 429 */
+/* 421 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -58623,7 +58610,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 430 */
+/* 422 */
 /***/ function(module, exports) {
 
 	module.exports = function(lastTouchEvent, clickTimestamp) {
@@ -58634,7 +58621,7 @@
 
 
 /***/ },
-/* 431 */
+/* 423 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -58662,10 +58649,10 @@
 	var EventPluginUtils = __webpack_require__(45);
 	var EventPropagators = __webpack_require__(42);
 	var SyntheticUIEvent = __webpack_require__(70);
-	var TouchEventUtils = __webpack_require__(432);
+	var TouchEventUtils = __webpack_require__(424);
 	var ViewportMetrics = __webpack_require__(71);
 
-	var keyOf = __webpack_require__(433);
+	var keyOf = __webpack_require__(425);
 	var topLevelTypes = EventConstants.topLevelTypes;
 
 	var isStartish = EventPluginUtils.isStartish;
@@ -58810,7 +58797,7 @@
 
 
 /***/ },
-/* 432 */
+/* 424 */
 /***/ function(module, exports) {
 
 	/**
@@ -58858,7 +58845,7 @@
 
 
 /***/ },
-/* 433 */
+/* 425 */
 /***/ function(module, exports) {
 
 	/**
@@ -58898,7 +58885,7 @@
 	module.exports = keyOf;
 
 /***/ },
-/* 434 */
+/* 426 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58908,7 +58895,7 @@
 	});
 	exports.default = undefined;
 
-	var _Avatar = __webpack_require__(435);
+	var _Avatar = __webpack_require__(427);
 
 	var _Avatar2 = _interopRequireDefault(_Avatar);
 
@@ -58917,7 +58904,7 @@
 	exports.default = _Avatar2.default;
 
 /***/ },
-/* 435 */
+/* 427 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -59082,6 +59069,12 @@
 	  muiTheme: _react.PropTypes.object.isRequired
 	};
 	exports.default = Avatar;
+
+/***/ },
+/* 428 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ }
 /******/ ]);
