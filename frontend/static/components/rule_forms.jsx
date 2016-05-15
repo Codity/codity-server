@@ -2,13 +2,14 @@ import React from 'react';
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
 var classNames = require('classnames');
 
 
 var SelectForm = React.createClass({
   getInitialState: function() {
     var initialValue = this.props.item ?
-      this.props.item[this.props.fieldType] : 'field';
+      this.props.item[this.props.fieldType] : this.props.fieldType;
 
     return {
       value: initialValue,

@@ -32,6 +32,11 @@ input
 a
   text-decoration none
 
+ul
+li
+  margin 0
+  padding 0
+
 .clear
   clear both
 
@@ -43,7 +48,7 @@ a
 .rules
   &__list
     width 670px
-    margin 0 auto
+    margin 0 auto 30px auto
     padding 0 50px
 
   &__header
@@ -62,11 +67,15 @@ a
       border-bottom 1px solid rgb(224, 224, 224)
 
       &_blank
-        color #fff
         background #B2DFDB
         border-bottom none
-        &__block
+        .rules__item__block
+          color #478982
           font-family Lato-Regular
+        .select
+          font-family Lato-Regular
+        .input
+          color #478982
         &:hover
           background #B2DFDB
 
@@ -75,6 +84,7 @@ a
       &_select
         padding 2px 6px
         background #eee
+        margin 0 5px
 
   &__cross
     position absolute
@@ -109,20 +119,23 @@ a
 
   &_invalid
     background red
-  &_blank
-    background blue
-  &_invalid&_blank
-    background green
+  /*&_blank
+    /*background blue*/
+  /*&_invalid&_blank
+   /* background green*/
 
   &__list
     position absolute
     top 0
     left 0
     list-style-type none
-    margin 0
-    padding 2px 6px
     cursor pointer
-    background grey
+    background #76C3BD
+    color #fff
+    li
+      padding 0 6px
+      &:hover
+        background rgba(0,0,0,0.05)
 
 
 .input
@@ -134,8 +147,7 @@ a
 
   &_invalid
     border-bottom 2px solid red
-  &_blank
-    background blue
+
   &_invalid&_blank
-    background green
+    border none
 

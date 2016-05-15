@@ -43822,7 +43822,7 @@
 	  displayName: 'SelectForm',
 
 	  getInitialState: function getInitialState() {
-	    var initialValue = this.props.item ? this.props.item[this.props.fieldType] : 'field';
+	    var initialValue = this.props.item ? this.props.item[this.props.fieldType] : this.props.fieldType;
 
 	    return {
 	      value: initialValue,

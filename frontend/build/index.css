@@ -33,6 +33,11 @@ input:focus {
 a {
   text-decoration: none;
 }
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
 .clear {
   clear: both;
 }
@@ -41,7 +46,7 @@ a {
 }
 .rules__list {
   width: 670px;
-  margin: 0 auto;
+  margin: 0 auto 30px auto;
   padding: 0 50px;
 }
 .rules__header {
@@ -59,12 +64,18 @@ a {
   border-bottom: 1px solid #e0e0e0;
 }
 .rules__item__wrapper_blank {
-  color: #fff;
   background: #b2dfdb;
   border-bottom: none;
 }
-.rules__item__wrapper_blank__block {
+.rules__item__wrapper_blank .rules__item__block {
+  color: #478982;
   font-family: Lato-Regular;
+}
+.rules__item__wrapper_blank .select {
+  font-family: Lato-Regular;
+}
+.rules__item__wrapper_blank .input {
+  color: #478982;
 }
 .rules__item__wrapper_blank:hover {
   background: #b2dfdb;
@@ -75,6 +86,7 @@ a {
 .rules__item__block_select {
   padding: 2px 6px;
   background: #eee;
+  margin: 0 5px;
 }
 .rules__cross {
   position: absolute;
@@ -104,25 +116,28 @@ a {
 .select {
   font-family: 'Lato';
   cursor: pointer;
+/*&_blank
+    /*background blue*/
+/*&_invalid&_blank
+   /* background green*/
 }
 .select_invalid {
   background: #f00;
-}
-.select_blank {
-  background: #00f;
-}
-.select_invalid.select_blank {
-  background: #008000;
 }
 .select__list {
   position: absolute;
   top: 0;
   left: 0;
   list-style-type: none;
-  margin: 0;
-  padding: 2px 6px;
   cursor: pointer;
-  background: #808080;
+  background: #76c3bd;
+  color: #fff;
+}
+.select__list li {
+  padding: 0 6px;
+}
+.select__list li:hover {
+  background: rgba(0,0,0,0.05);
 }
 .input {
   font-family: 'Lato';
@@ -134,9 +149,6 @@ a {
 .input_invalid {
   border-bottom: 2px solid #f00;
 }
-.input_blank {
-  background: #00f;
-}
 .input_invalid.input_blank {
-  background: #008000;
+  border: none;
 }
