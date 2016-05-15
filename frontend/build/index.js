@@ -66,6 +66,10 @@
 
 	var _rules2 = _interopRequireDefault(_rules);
 
+	var _dashboard = __webpack_require__(436);
+
+	var _dashboard2 = _interopRequireDefault(_dashboard);
+
 	var _getMuiTheme = __webpack_require__(322);
 
 	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
@@ -126,7 +130,7 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(_AppBar2.default, {
-	          title: 'Rules',
+	          title: 'Codity App',
 	          onLeftIconButtonTouchTap: this.toggleDrawer
 	        }),
 	        _react2.default.createElement(
@@ -135,14 +139,14 @@
 	          _react2.default.createElement(_Divider2.default, null),
 	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { to: '/about' },
+	            { to: '/dashboard' },
 	            _react2.default.createElement(
 	              _MenuItem2.default,
 	              { onClick: this.toggleDrawer },
 	              _react2.default.createElement(
 	                'span',
 	                { className: 'drawer__link' },
-	                'about'
+	                'dashboard'
 	              )
 	            )
 	          ),
@@ -162,30 +166,6 @@
 	        ),
 	        this.props.children
 	      )
-	    );
-	  }
-	});
-
-	var About = _react2.default.createClass({
-	  displayName: 'About',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'h1',
-	      null,
-	      'about!'
-	    );
-	  }
-	});
-
-	var NoMatch = _react2.default.createClass({
-	  displayName: 'NoMatch',
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'h1',
-	      null,
-	      'nomatch'
 	    );
 	  }
 	});
@@ -226,11 +206,22 @@
 	  }
 	});*/
 
+	var NoMatch = _react2.default.createClass({
+	  displayName: 'NoMatch',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'h1',
+	      null,
+	      'nomatch'
+	    );
+	  }
+	});
+
 	var Index = _react2.default.createClass({
 	  displayName: 'Index',
 
 	  render: function render() {
-	    console.log("render");
 	    return _react2.default.createElement(
 	      'div',
 	      null,
@@ -247,11 +238,22 @@
 	  displayName: 'RulesWrapper',
 
 	  render: function render() {
-	    console.log("render");
 	    return _react2.default.createElement(
 	      'div',
 	      null,
 	      _react2.default.createElement(_rules2.default, null)
+	    );
+	  }
+	});
+
+	var DashWrapper = _react2.default.createClass({
+	  displayName: 'DashWrapper',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(_dashboard2.default, null)
 	    );
 	  }
 	});
@@ -264,7 +266,7 @@
 	    { path: '/', component: App },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: Index }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'settings', component: RulesWrapper }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'about', component: About }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: DashWrapper }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: NoMatch })
 	  )
 	), document.getElementById('app'));
@@ -25582,7 +25584,6 @@
 	    };
 	  },
 	  send: function send(field, value) {
-	    console.log("send");
 	    this.state.blankItemData[field] = value;
 	    this.updateReady();
 	  },
@@ -25602,8 +25603,6 @@
 	    });
 	  },
 	  save: function save(event) {
-	    console.log("from send", this.state.blankItemData);
-
 	    $.ajax({
 	      type: 'POST',
 	      url: '/api/rules/',
@@ -25649,7 +25648,6 @@
 	      field: field,
 	      value: value
 	    };
-	    console.log("data", data.id);
 
 	    $.ajax({
 	      type: 'PUT',
@@ -25721,7 +25719,6 @@
 	    item.parentElement.removeChild(item);
 	  },
 	  appendItem: function appendItem(item) {
-	    console.log('item', item);
 	    this.state.rulesList.push(item);
 	    this.forceUpdate();
 	  },
@@ -25731,7 +25728,6 @@
 	    });
 	  },
 	  render: function render() {
-	    console.log("list render!", this.state.showBlank);
 	    var removeItem = this.removeItem,
 	        appendItem = this.appendItem;
 	    return _react2.default.createElement(
@@ -59075,6 +59071,43 @@
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Dashboard = _react2.default.createClass({
+	  displayName: 'Dashboard',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement(
+	        'h2',
+	        null,
+	        'cool dashborad'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Dashboard;
 
 /***/ }
 /******/ ]);

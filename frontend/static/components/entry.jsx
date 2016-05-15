@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 
 import Rules from './rules.jsx'
+import Dashboard from './dashboard.jsx'
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -35,16 +36,16 @@ var App = React.createClass({
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
           <AppBar
-            title="Rules"
+            title="Codity App"
             onLeftIconButtonTouchTap={this.toggleDrawer}
           />
 
           <Drawer open={this.state.drawerIsOpen}>
 
             <Divider/>
-            <Link to={'/about'} >
+            <Link to={'/dashboard'} >
               <MenuItem onClick={this.toggleDrawer}>
-                <span className='drawer__link'>about</span>
+                <span className='drawer__link'>dashboard</span>
               </MenuItem>
             </Link>
             <Link to={'/settings'}>
@@ -60,25 +61,6 @@ var App = React.createClass({
     );
   }
 });
-
-
-
-var About = React.createClass({
-  render: function() {
-    return (
-      <h1>about!</h1>
-    );
-  }
-});
-
-var NoMatch = React.createClass({
-  render: function() {
-    return (
-      <h1>nomatch</h1>
-    );
-  }
-});
-
 
 
 /*var Users = React.createClass({
@@ -119,9 +101,17 @@ var NoMatch = React.createClass({
   }
 });*/
 
+
+var NoMatch = React.createClass({
+  render: function() {
+    return (
+      <h1>nomatch</h1>
+    );
+  }
+});
+
 var Index = React.createClass({
   render: function() {
-    console.log("render");
     return(
       <div>
       <h1>Index</h1>
@@ -132,13 +122,13 @@ var Index = React.createClass({
 
 var RulesWrapper = React.createClass({
   render: function() {
-    console.log("render");
-    return(
-      <div>
-        <Rules/>
+    return( <div><Rules/></div> );
+  }
+});
 
-      </div>
-    );
+var DashWrapper = React.createClass({
+  render: function() {
+    return( <div><Dashboard/></div> );
   }
 });
 
@@ -147,7 +137,7 @@ render(
     <Route path="/" component={App}>
       <IndexRoute component={Index}/>
       <Route path="settings" component={RulesWrapper}/>
-      <Route path="about" component={About}/>
+      <Route path="dashboard" component={DashWrapper}/>
 
       <Route path="*" component={NoMatch}/>
     </Route>

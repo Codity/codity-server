@@ -131,7 +131,8 @@ INSTALLED_APPS = (
 REACT_ROUTES = [
     'about',
     'users',
-    'settings'
+    'settings',
+    'dashboard'
 ]
 
 # A sample logging configuration. The only tangible logging

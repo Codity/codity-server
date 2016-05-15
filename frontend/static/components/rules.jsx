@@ -57,7 +57,6 @@ var BlankRulesItem = React.createClass({
     };
   },
   send: function(field, value) {
-    console.log("send");
     this.state.blankItemData[field] = value;
     this.updateReady();
   },
@@ -78,8 +77,6 @@ var BlankRulesItem = React.createClass({
     });
   },
   save: function(event) {
-    console.log("from send", this.state.blankItemData);
-
     $.ajax({
       type: 'POST',
       url: '/api/rules/',
@@ -124,7 +121,6 @@ var SetRulesItem = React.createClass({
       field: field,
       value: value
     };
-    console.log("data", data.id);
 
     $.ajax({
         type: 'PUT',
@@ -194,7 +190,6 @@ var RulesList = React.createClass({
     item.parentElement.removeChild(item);
   },
   appendItem: function(item) {
-    console.log('item',item);
     this.state.rulesList.push(item);
     this.forceUpdate();
   },
@@ -204,7 +199,6 @@ var RulesList = React.createClass({
     });
   },
   render: function() {
-    console.log("list render!", this.state.showBlank);
     var removeItem = this.removeItem, appendItem = this.appendItem;
     return (
       <div className='rules'>
