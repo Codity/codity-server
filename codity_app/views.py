@@ -1,17 +1,19 @@
-from django.contrib.auth.models import User
-from rest_framework import permissions
-from rest_framework import renderers
+# -*- coding: utf-8 -*-
+
+#from django.contrib.auth.models import User
+#from rest_framework import permissions
+#from rest_framework import renderers
 from rest_framework import viewsets
-from rest_framework.decorators import detail_route, list_route
-from rest_framework.response import Response
-from codity_app.models import Rule
+#from rest_framework.decorators import detail_route, list_route
+#from rest_framework.response import Response
+from codity_app.models import Rule, Metric
 #from codity_app.permissions import IsOwnerOrReadOnly
-from codity_app.serializers import RuleSerializer
+from codity_app.serializers import RuleSerializer, MetricSerializer
 from django.shortcuts import render_to_response
 
 
-from rest_framework.decorators import api_view
-from rest_framework import status
+#from rest_framework.decorators import api_view
+#from rest_framework import status
 
 
 
@@ -51,13 +53,20 @@ from rest_framework import status
     queryset = User.objects.all()
     serializer_class = UserSerializer'''
 
+class MetricViewSet(viewsets.ModelViewSet):
+    queryset = Metric.objects.all()
+    serializer_class = MetricSerializer
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()
     serializer_class = RuleSerializer
 
+    # def create(self, request, *args, **kwargs):
+    #     if(проверка на уникальность):
+    #         throw ObjectExistsException()
+    #     return super(RuleViewSet, self).create(request, *args, **kwargs)
 
-    def create(self, request):
+    '''def create(self, request):
         serializer = RuleSerializer(data=request.data)
 
         metric = request.data.get('metric')
@@ -69,7 +78,6 @@ class RuleViewSet(viewsets.ModelViewSet):
             instance = Rule.objects.get(metric=metric, value=value, sign=sign, action=action)
         except Rule.DoesNotExist:
             instance = None
-
 
         if serializer.is_valid():
             if instance is None:
@@ -84,38 +92,8 @@ class RuleViewSet(viewsets.ModelViewSet):
                     'pk': instance.pk
                 }, status=status.HTTP_400_BAD_REQUEST)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)'''
 
-    def delete(self, request):
-        pk = request.data.get('id')
-        rule = Rule.objects.get(pk=pk)
-        rule.delete()
-
-        return Response({
-            'pk': pk,
-            'message': 'Delete'
-        }, status=status.HTTP_200_OK)
-
-    def update(self, request):
-        pk = request.data.get('id')
-        rule = Rule.objects.get(pk=pk)
-        field = request.data.get('field')
-        value = request.data.get('value')
-        setattr(rule, field, value)
-
-        rule.save()
-
-        return Response({
-            'pk': pk,
-            'message': 'Update'
-        }, status=status.HTTP_200_OK)
-
-
-rule_list = RuleViewSet.as_view({
-    'get': 'list',
-    'post': 'create',
-    'put': 'update'
-})
 
 def index(request):
 

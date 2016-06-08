@@ -13,6 +13,9 @@ import Divider from 'material-ui/Divider';
 
 import Paper from 'material-ui/Paper';
 
+var Data = {};
+Data['metrics'] = ['', 'CPU', 'RAM', 'huy'];
+
 var RulesItem = React.createClass({
   render: function() {
     return (
@@ -22,7 +25,7 @@ var RulesItem = React.createClass({
         <SelectForm
           {...this.props}
           fieldType='metric'
-          options={['', 'CPU', 'RAM']}/>
+          options={Data.metrics}/>
         &nbsp;
         <SelectForm
           {...this.props}
@@ -116,20 +119,22 @@ var SetRulesItem = React.createClass({
     this.modifyItemData(field, value);
   },
   modifyItemData: function(field, value) {
-    var data = {
-      id: this.props.item.id,
-      field: field,
-      value: value
-    };
+    // var data = {
+    //   id: this.props.item.id,
+    //   field: field,
+    //   value: value
+    // };
+    var data = {};
+    data[field] = value;
 
     $.ajax({
-        type: 'PUT',
-        url: '/api/rules/',
+        type: 'PATCH',
+        url: '/api/rules/' + this.props.item.id,
         data: data
     }).done(function(data) {
-      console.log('PUT success', data);
+      console.log('PATCH success', data);
     }).fail(function(data) {
-      console.log('PUT fail', data);
+      console.log('PATCH fail!', data);
     });
 
   },
@@ -139,14 +144,9 @@ var SetRulesItem = React.createClass({
     });
   },
   deleteItem: function(event) {
-    var data = {
-      id: this.props.item.id
-    };
-
     $.ajax({
         type: 'DELETE',
-        url: '/api/rules/',
-        data: data
+        url: '/api/rules/' + this.props.item.id
     }).done(function(data) {
       console.log('DELETE success', data);
     }).fail(function(data) {

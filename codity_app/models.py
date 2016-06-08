@@ -1,9 +1,6 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
-'''from pygments.lexers import get_all_lexers
-from pygments.styles import get_all_styles
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters.html import HtmlFormatter
-from pygments import highlight'''
 
 '''LEXERS = [item for item in get_all_lexers() if item[1]]
 LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
@@ -14,11 +11,23 @@ METRIC_CHOICES = (('CPU', 'CPU'), ('RAM','RAM'), ('HDD','HDD'))
 SIGN_CHOICES = (('less', 'less'), ('more', 'more'))
 ACTION_CHOICES = (('sell', 'sell'), ('buy', 'buy'))
 
+
+class Metric(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    unit = models.CharField(max_length=100)
+
+
 class Rule(models.Model):
-    metric = models.CharField(choices=METRIC_CHOICES, max_length=100)
+    metric = models.ForeignKey(Metric, related_name='rules')
+    #metric = models.CharField(choices=METRIC_CHOICES, max_length=100)
     value = models.IntegerField()
     sign = models.CharField(choices=SIGN_CHOICES, max_length=100)
     action = models.CharField(choices=ACTION_CHOICES, max_length=100)
+
+    class Meta:
+        unique_together = ('metric', 'sign', 'action')
+
+
 
 '''class Snippet(models.Model):
     created = models.DateTimeField(auto_now_add=True)
