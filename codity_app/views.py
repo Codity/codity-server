@@ -1,20 +1,17 @@
-# -*- coding: utf-8 -*-
-
-#from django.contrib.auth.models import User
-#from rest_framework import permissions
-#from rest_framework import renderers
+# from django.contrib.auth.models import User
+# from rest_framework import permissions
+# from rest_framework import renderers
 from rest_framework import viewsets
-#from rest_framework.decorators import detail_route, list_route
-#from rest_framework.response import Response
+# from rest_framework.decorators import detail_route, list_route
+# from rest_framework.response import Response
 from codity_app.models import Rule, Metric
-#from codity_app.permissions import IsOwnerOrReadOnly
+# from codity_app.permissions import IsOwnerOrReadOnly
 from codity_app.serializers import RuleSerializer, MetricSerializer
 from django.shortcuts import render_to_response
 
 
-#from rest_framework.decorators import api_view
-#from rest_framework import status
-
+# from rest_framework.decorators import api_view
+# from rest_framework import status
 
 
 '''class SnippetViewSet(viewsets.ModelViewSet):
@@ -53,9 +50,11 @@ from django.shortcuts import render_to_response
     queryset = User.objects.all()
     serializer_class = UserSerializer'''
 
+
 class MetricViewSet(viewsets.ModelViewSet):
     queryset = Metric.objects.all()
     serializer_class = MetricSerializer
+
 
 class RuleViewSet(viewsets.ModelViewSet):
     queryset = Rule.objects.all()

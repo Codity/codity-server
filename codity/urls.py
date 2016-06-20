@@ -1,10 +1,12 @@
-from codity_app import views
 from django import views as django_views
+from django.contrib import admin
 from django.conf import settings
 from django.conf.urls import url, include
-from rest_framework.routers import DefaultRouter
-
 from django.views.generic import TemplateView
+
+from rest_framework.routers import DefaultRouter
+from codity_app import views
+
 from codity_app.views import RuleViewSet
 
 routes = getattr(settings, 'REACT_ROUTES', [])
@@ -12,8 +14,8 @@ routes = getattr(settings, 'REACT_ROUTES', [])
 router = DefaultRouter()
 router.register(r'rules', views.RuleViewSet)
 router.register(r'metrics', views.MetricViewSet)
-#router.register(r'users', views.UserViewSet)
-#router.register(r'rules', views.RuleViewSet)
+# router.register(r'users', views.UserViewSet)
+# router.register(r'rules', views.RuleViewSet)
 
 
 urlpatterns = [
@@ -35,4 +37,6 @@ urlpatterns = [
     # serve static
     url(r'^build/(?P<path>.*)$', django_views.static.serve,
         {'document_root': settings.STATIC_ROOT}),
+
+    url(r'^admin/', admin.site.urls),
 ]

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
 
 '''LEXERS = [item for item in get_all_lexers() if item[1]]
@@ -7,7 +5,7 @@ LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
 STYLE_CHOICES = sorted((item, item) for item in get_all_styles())'''
 
 METRIC_CHOICES = (('CPU', 'CPU'), ('RAM','RAM'), ('HDD','HDD'))
-#SIGN_CHOICES = ((1,'<'), (2,'>'))
+# SIGN_CHOICES = ((1,'<'), (2,'>'))
 SIGN_CHOICES = (('less', 'less'), ('more', 'more'))
 ACTION_CHOICES = (('sell', 'sell'), ('buy', 'buy'))
 
@@ -19,7 +17,7 @@ class Metric(models.Model):
 
 class Rule(models.Model):
     metric = models.ForeignKey(Metric, related_name='rules')
-    #metric = models.CharField(choices=METRIC_CHOICES, max_length=100)
+    # metric = models.CharField(choices=METRIC_CHOICES, max_length=100)
     value = models.IntegerField()
     sign = models.CharField(choices=SIGN_CHOICES, max_length=100)
     action = models.CharField(choices=ACTION_CHOICES, max_length=100)
