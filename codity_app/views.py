@@ -13,6 +13,7 @@ from django.shortcuts import render_to_response
 # from rest_framework.decorators import api_view
 # from rest_framework import status
 
+from potholder import get_hello
 
 '''class SnippetViewSet(viewsets.ModelViewSet):
     """
@@ -95,6 +96,8 @@ class RuleViewSet(viewsets.ModelViewSet):
 
 
 def index(request):
+
+    print(get_hello())
 
     return render_to_response('index.html')
 
